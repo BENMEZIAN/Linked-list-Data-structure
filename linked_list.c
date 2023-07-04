@@ -18,6 +18,8 @@ void delete_end();
 void delete_pos();
 void count();
 void reverse();
+void sort();
+void removeDuplicates();
 int getch();
 
 node *start=NULL;  // global variable which is the head of the list, it's accessible by any function of this program
@@ -38,7 +40,9 @@ int main()
             printf("8.Delete from specified position\n");
             printf("9.Count (number of elements)\n");
 			printf("10.Reverse list\n");
-			printf("11.Exit\n");
+			printf("11.Sort list\n");
+			printf("12.Remove duplicates\n");
+			printf("13.Exit\n");
             printf("--------------------------------------\n");
             printf("Enter your choice:");
             scanf("%d",&choice);
@@ -73,9 +77,15 @@ int main()
                 case 10: reverse();
                         break;
                 
-                case 11: exit(0);
+                case 11: sort();
                         break;
-                        
+                
+                case 12: removeDuplicates();
+                        break;
+                
+				case 13: exit(0);
+                        break;
+						   
                 default: printf("Wrong Choice\n");
                         break;
             }
@@ -320,4 +330,51 @@ void reverse(){
     }
     
 	start = prev;
+}
+
+
+void sort(){
+	
+	node* p = start;
+	node* q;
+	int temp;
+	
+	while(p->next != NULL){
+		node* q = p->next;
+		while(q != NULL){
+			if(p->info > q->info){
+				temp = p->info;
+				p->info = q->info;
+				q->info = temp;
+			}
+			q = q->next;
+		}
+		
+		p = p->next;
+	}
+	
+	display();
+}
+
+void removeDuplicates(){
+    
+    node *current, *compare, *duplicate;
+    current = start;
+
+    while (current != NULL && current->next != NULL) {
+        compare = current;
+        while (compare->next != NULL) {
+            if (current->info == compare->next->info) {
+                duplicate = compare->next;
+                compare->next = compare->next->next;
+                free(duplicate);
+            } else {
+                compare = compare->next;
+            }
+        }
+
+        current = current->next;
+    }
+
+    display();
 }
